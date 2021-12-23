@@ -1,6 +1,10 @@
+import LoginDialog from "../dialogs/LoginDialog";
+
 const LoginScreen = () => {
   return(
-    <div>LoginScreen</div>
+    <div className="h-screen w-screen">
+      <LoginDialog />
+    </div>
   )
 }
 
