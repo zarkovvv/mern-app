@@ -1,6 +1,10 @@
+import RegisterDialog from "../dialogs/RegisterDialog";
+
 const RegisterScreen = () => {
-  return(
-    <div>RegisterScreen</div>
+  return (
+    <div className="h-screen w-screen">
+      <RegisterDialog />
+    </div>
   )
 }
 
