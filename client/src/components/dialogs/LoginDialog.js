@@ -1,6 +1,43 @@
-import {Link, NavLink} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {toast} from "react-toastify";
+import axios from "axios";
+import Alert from "../alerts/Alert";
 
 const LoginDialog = (props) => {
+
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+   if (localStorage.getItem('authToken')) {
+     navigate('/');
+   }
+  }, [navigate])
+
+  const loginHandler = async (e) => {
+    e.preventDefault();
+
+    const config = {
+      header: {
+        "Content-Type": "application/json"
+      }
+    }
+
+    try {
+      const {data} = await axios.post("/api/auth/login", {email, password}, config);
+
+      localStorage.setItem("authToken", data.token);
+
+      navigate("/");
+
+    } catch (e) {
+      toast(e.response.data.error);
+    }
+  }
+
   return(
     <div className="h-full flex flex-col items-center justify-center bg-gray-800">
       <div className="flex flex-col bg-white shadow-md shadow-black px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-3xl w-50 max-w-md">
@@ -12,7 +49,7 @@ const LoginDialog = (props) => {
         </div>
 
         <div className="mt-10">
-          <form action="#">
+          <form onSubmit={loginHandler}>
             <div className="flex flex-col mb-5">
               <label htmlFor="email" className="mb-1 text-xs tracking-wide text-gray-600">E-Mail Address:</label>
               <div className="relative">
@@ -27,6 +64,8 @@ const LoginDialog = (props) => {
                   className="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                   placeholder="Enter your email"
                   required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
@@ -48,6 +87,8 @@ const LoginDialog = (props) => {
                   className="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
                   placeholder="Enter your password"
                   required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>
@@ -84,6 +125,7 @@ const LoginDialog = (props) => {
           </span>
         </span>
       </div>
+      <Alert />
     </div>
   )
 }
