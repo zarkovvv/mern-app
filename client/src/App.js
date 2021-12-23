@@ -9,9 +9,9 @@ const App = () => {
         <Routes>
           <Route path={"/"} element={<PrivateRoute><PrivateScreen/></PrivateRoute>} />
           <Route path={"/login"} element={<LoginScreen />}/>
-          <Route path={"/register"} element={RegisterScreen}/>
-          <Route path={"/forgotpassword"} element={ForgotPasswordScreen}/>
-          <Route path={"/passwordreset:resetToken"} element={ResetPasswordScreen}/>
+          <Route path={"/register"} element={<RegisterScreen />}/>
+          <Route path={"/forgotpassword"} element={<ForgotPasswordScreen />}/>
+          <Route path={"/passwordreset:resetToken"} element={<ResetPasswordScreen />}/>
         </Routes>
       </div>
     </Router>
