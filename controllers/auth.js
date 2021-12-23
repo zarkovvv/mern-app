@@ -6,6 +6,10 @@ const sendEmail = require('../utils/sendEmail');
 exports.register = async (req, res, next) => {
     const {username, email, password} = req.body;
 
+    if (password.length < 6) {
+       return next(new ErrorResponse('Password must be at least 6 characters long.', 400));
+    }
+
     try {
         const user = await User.create({
             username, email, password
