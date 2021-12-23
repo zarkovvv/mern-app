@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {Link, useNavigate} from 'react-router-dom';
 import Alert from "../alerts/Alert";
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 const RegisterDialog = () => {
@@ -13,6 +13,12 @@ const RegisterDialog = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
+
+  useEffect(() => {
+    if (localStorage.getItem('authToken')) {
+      navigate('/');
+    }
+  }, [navigate])
 
   const registerHandler = async (e) => {
     e.preventDefault();
