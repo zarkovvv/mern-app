@@ -20,21 +20,15 @@ const LoginDialog = (props) => {
   const loginHandler = async (e) => {
     e.preventDefault();
 
-    const config = {
-      header: {
-        "Content-Type": "application/json"
-      }
-    }
-
     try {
-      const {data} = await axios.post("/api/auth/login", {email, password}, config);
+      const response = await axios.post("/api/auth/login", {email, password});
 
-      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("authToken", response.data.token);
 
       navigate("/");
 
     } catch (e) {
-      toast(e.response.data.error);
+      toast.error(e.response.data.error);
     }
   }
 

@@ -3,7 +3,6 @@ import axios from "axios";
 import {Link, useNavigate} from 'react-router-dom';
 import Alert from "../alerts/Alert";
 import {toast} from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 const RegisterDialog = () => {
 
@@ -23,12 +22,6 @@ const RegisterDialog = () => {
   const registerHandler = async (e) => {
     e.preventDefault();
 
-    const config = {
-      header: {
-        "Content-Type": "application/json"
-      }
-    }
-
     if (password !== confirmPass) {
       setPassword("");
       setConfirmPass("");
@@ -37,7 +30,7 @@ const RegisterDialog = () => {
     }
 
     try {
-      const {data} = await axios.post("/api/auth/register", {username, email, password}, config);
+      const {data} = await axios.post("/api/auth/register", {username, email, password});
 
       localStorage.setItem("authToken", data.token);
 

@@ -1,6 +1,10 @@
+import axios from "axios";
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import PrivateRoute from "./components/routing/PrivateRoute";
 import {PrivateScreen, RegisterScreen, LoginScreen, ForgotPasswordScreen, ResetPasswordScreen} from './components/screens/index';
+import 'react-toastify/dist/ReactToastify.css';
+
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const App = () => {
   return (
