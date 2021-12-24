@@ -4,6 +4,7 @@ const ErrorResponse = require('../utils/errorResponse');
 const sendEmail = require('../utils/sendEmail');
 
 exports.register = async (req, res, next) => {
+    const uid = crypto.randomUUID();
     const {username, email, password} = req.body;
 
     if (password.length < 6) {
@@ -12,7 +13,7 @@ exports.register = async (req, res, next) => {
 
     try {
         const user = await User.create({
-            username, email, password
+            uid, username, email, password
         });
 
         sendToken(user, 201, res);
@@ -127,6 +128,10 @@ const sendToken = (user, statusCode, res) => {
     const token = user.getSignedToken();
     res.status(statusCode).json({
         success: true,
-        token
+        token,
+        user: {
+            id: user.uid,
+            username: user.username
+        }
     });
 }
