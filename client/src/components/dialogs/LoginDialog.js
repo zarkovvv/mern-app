@@ -21,9 +21,9 @@ const LoginDialog = (props) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("/api/auth/login", {email, password});
+      const {data} = await axios.post("/api/auth/login", {email, password});
 
-      localStorage.setItem("authToken", response.data.token);
+      localStorage.setItem("authToken", JSON.stringify({username: data.user.username, email: data.user.email, uid: data.user.id, token: data.token}));
 
       navigate("/");
 

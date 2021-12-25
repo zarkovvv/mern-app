@@ -32,7 +32,7 @@ const RegisterDialog = () => {
     try {
       const {data} = await axios.post("/api/auth/register", {username, email, password});
 
-      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("authToken", JSON.stringify({username: data.user.username, email: data.user.email, uid: data.user.id, token: data.token}));
 
       navigate("/");
 
