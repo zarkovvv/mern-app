@@ -1,8 +1,12 @@
+import React from "react";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
 import Alert from "../alerts/Alert";
+import Header from "../Header/Header";
+import Main from "../Main/Main";
+import {createTheme, ThemeProvider} from "@mui/material";
 
 const PrivateScreen = () => {
   const [error, setError] = useState("");
@@ -29,26 +33,29 @@ const PrivateScreen = () => {
       } catch (e) {
         localStorage.removeItem('authToken');
         setError('Not authorized');
-        toast.error("Not authorized!", {autoClose: false, onClose: () => navigate('/login')});
+        toast.error("Session expired!", {autoClose: false, onClose: () => navigate('/login')});
       }
     }
 
     await fetchPrivateData();
   }, [navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem('authToken');
-    navigate('/login');
-  }
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
 
-  return(
-      error ? <Alert /> :
-        <>
-          <div className='bg-green-700 h-9 w-screen'>
-            PRIVATE: {privateData}
-          </div>
-          <button onClick={handleLogout}>LOGOUT</button>
-        </>
+  return (
+    error ?
+      <Alert/>
+      :
+      <ThemeProvider theme={darkTheme}>
+        <React.Fragment>
+          <Header />
+          <Main />
+        </React.Fragment>
+      </ThemeProvider>
   )
 }
 
