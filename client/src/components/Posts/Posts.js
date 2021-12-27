@@ -3,13 +3,13 @@ import Post from "./Post/Post";
 
 const Posts = () => {
 
-  const posts = ['dsa', "dsa", "dsa", "dsa", "dsa", ];
+  const posts = ['dsa', "daa", "csa", "dba", "dna", ];
 
   return (
     !posts.length ? <CircularProgress /> : (
       <Grid container alignItems="stretch" spacing={3}>
         {posts.map((post) => (
-          <Grid key={post._id} item xs={12} sm={6} md={6}>
+          <Grid key={post} item xs={12} sm={6} md={6}>
             <Post post={post} />
           </Grid>
         ))}
