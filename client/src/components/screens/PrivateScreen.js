@@ -15,7 +15,7 @@ const PrivateScreen = () => {
   const navigate = useNavigate();
 
   useEffect(async () => {
-    if (!localStorage.getItem('authToken')) {
+    if (!localStorage.getItem('authData')) {
       navigate('/login');
     }
 
@@ -23,7 +23,7 @@ const PrivateScreen = () => {
       const config = {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('authToken')).token}`
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('authData')).token}`
         }
       }
 
@@ -31,7 +31,7 @@ const PrivateScreen = () => {
         const {data} = await axios.get("/api/private", config);
         setPrivateData(data.data);
       } catch (e) {
-        localStorage.removeItem('authToken');
+        localStorage.removeItem('authData');
         setError('Not authorized');
         toast.error("Session expired!", {autoClose: false, onClose: () => navigate('/login')});
       }

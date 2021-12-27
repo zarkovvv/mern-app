@@ -9,24 +9,22 @@ import Typography from '@mui/material/Typography';
 import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import {createTheme, ThemeProvider} from "@mui/material";
 import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {logout} from '../../redux/slices/authSlice'
 
 export default function Header() {
 
   const navigate = useNavigate();
-
-  const darkTheme = createTheme({
-    palette: {
-      mode: 'dark',
-    },
-  });
+  const dispatch = useDispatch();
+  const {username} = useSelector((state) => state.authentication)
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
   const handleLogout = () => {
-    localStorage.removeItem('authToken');
+    dispatch(logout());
+    localStorage.removeItem('authData');
     navigate('/login');
   }
 

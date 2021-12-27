@@ -130,7 +130,7 @@ const sendToken = (user, statusCode, res) => {
         success: true,
         token,
         user: {
-            id: user.uid,
+            uid: user.uid,
             username: user.username
         }
     });

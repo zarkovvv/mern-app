@@ -3,27 +3,34 @@ import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import axios from "axios";
 import Alert from "../alerts/Alert";
+import {useDispatch} from "react-redux";
+import {login} from '../../redux/slices/authSlice';
+import {CircularProgress} from "@mui/material";
 
 const LoginDialog = (props) => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-   if (localStorage.getItem('authToken')) {
+   if (localStorage.getItem('authData')) {
      navigate('/');
    }
   }, [navigate])
 
   const loginHandler = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const {data} = await axios.post("/api/auth/login", {email, password});
 
-      localStorage.setItem("authToken", JSON.stringify({username: data.user.username, email: data.user.email, uid: data.user.id, token: data.token}));
+      dispatch(login(data));
+      setLoading(false);
+      localStorage.setItem("authData", JSON.stringify({username: data.user.username, email: data.user.email, uid: data.user.uid, token: data.token}));
 
       navigate("/");
 
@@ -88,6 +95,7 @@ const LoginDialog = (props) => {
             </div>
 
             <div className="flex w-full">
+              {loading ? <CircularProgress /> :
               <button
                 type="submit"
                 className="flex mt-2 items-center justify-center focus:outline-none text-white text-sm sm:text-base bg-blue-500 hover:bg-blue-600 rounded-2xl py-2 w-full transition duration-150 ease-in">
@@ -108,6 +116,7 @@ const LoginDialog = (props) => {
                   </svg>
                 </span>
               </button>
+              }
             </div>
           </form>
         </div>

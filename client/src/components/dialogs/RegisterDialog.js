@@ -3,10 +3,13 @@ import axios from "axios";
 import {Link, useNavigate} from 'react-router-dom';
 import Alert from "../alerts/Alert";
 import {toast} from "react-toastify";
+import {useDispatch} from "react-redux";
+import {register} from "../../redux/slices/authSlice";
 
 const RegisterDialog = () => {
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -14,7 +17,7 @@ const RegisterDialog = () => {
   const [confirmPass, setConfirmPass] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem('authToken')) {
+    if (localStorage.getItem('authData')) {
       navigate('/');
     }
   }, [navigate])
@@ -32,7 +35,8 @@ const RegisterDialog = () => {
     try {
       const {data} = await axios.post("/api/auth/register", {username, email, password});
 
-      localStorage.setItem("authToken", JSON.stringify({username: data.user.username, email: data.user.email, uid: data.user.id, token: data.token}));
+      dispatch(register(data));
+      localStorage.setItem("authData", JSON.stringify({username: data.user.username, email: data.user.email, uid: data.user.uid, token: data.token}));
 
       navigate("/");
 
