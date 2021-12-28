@@ -5,6 +5,7 @@ import Alert from "../alerts/Alert";
 import {toast} from "react-toastify";
 import {useDispatch} from "react-redux";
 import {register} from "../../redux/slices/authSlice";
+import {CircularProgress} from "@mui/material";
 
 const RegisterDialog = () => {
 
@@ -15,6 +16,7 @@ const RegisterDialog = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem('authData')) {
@@ -33,10 +35,18 @@ const RegisterDialog = () => {
     }
 
     try {
+      setLoading(true);
+
       const {data} = await axios.post("/api/auth/register", {username, email, password});
 
       dispatch(register(data));
-      localStorage.setItem("authData", JSON.stringify({username: data.user.username, email: data.user.email, uid: data.user.uid, token: data.token}));
+      setLoading(false);
+      localStorage.setItem("authData", JSON.stringify({
+        username: data.user.username,
+        email: data.user.email,
+        uid: data.user.uid,
+        token: data.token
+      }));
 
       navigate("/");
 
@@ -153,22 +163,27 @@ const RegisterDialog = () => {
               <button
                 type="submit"
                 className="flex mt-2 items-center justify-center focus:outline-none text-white text-sm sm:text-base bg-blue-500 hover:bg-blue-600 rounded-2xl py-2 w-full transition duration-150 ease-in">
-                <span className="mr-2 uppercase">Sign Up</span>
-                <span>
-                  <svg
-                    className="h-6 w-6"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
+                {loading ? <CircularProgress size={24} sx={{color: 'white'}}/> :
+                  <>
+                    <span className="mr-2 uppercase">Sign Up</span>
+                    <span>
+                    <svg
+                      className="h-6 w-6"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
                     <path
                       d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
-                  </svg>
+                    </svg>
                 </span>
+                  </>
+                }
+
               </button>
             </div>
           </form>

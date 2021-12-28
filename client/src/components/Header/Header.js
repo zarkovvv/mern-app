@@ -12,6 +12,7 @@ import Logout from '@mui/icons-material/Logout';
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {logout} from '../../redux/slices/authSlice'
+import {Divider} from "@mui/material";
 
 export default function Header() {
 
@@ -45,7 +46,7 @@ export default function Header() {
         <div className="mr-7">
           <Tooltip title="Account settings">
             <IconButton onClick={handleClick} >
-              <Avatar sx={{width: 40, height: 40}}>M</Avatar>
+              <Avatar sx={{width: 40, height: 40}}>{username[0].toUpperCase()}</Avatar>
             </IconButton>
           </Tooltip>
         </div>
@@ -84,6 +85,10 @@ export default function Header() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
+        <MenuItem disabled>
+          {username}
+        </MenuItem>
+        <Divider />
         <MenuItem>
           <ListItemIcon>
             <Settings fontSize="small" />

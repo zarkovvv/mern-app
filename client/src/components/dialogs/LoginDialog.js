@@ -17,20 +17,26 @@ const LoginDialog = (props) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-   if (localStorage.getItem('authData')) {
-     navigate('/');
-   }
+    if (localStorage.getItem('authData')) {
+      navigate('/');
+    }
   }, [navigate])
 
   const loginHandler = async (e) => {
     e.preventDefault();
-    setLoading(true);
     try {
+      setLoading(true);
+
       const {data} = await axios.post("/api/auth/login", {email, password});
 
       dispatch(login(data));
       setLoading(false);
-      localStorage.setItem("authData", JSON.stringify({username: data.user.username, email: data.user.email, uid: data.user.uid, token: data.token}));
+      localStorage.setItem("authData", JSON.stringify({
+        username: data.user.username,
+        email: data.user.email,
+        uid: data.user.uid,
+        token: data.token
+      }));
 
       navigate("/");
 
@@ -39,9 +45,10 @@ const LoginDialog = (props) => {
     }
   }
 
-  return(
+  return (
     <div className="h-full flex flex-col items-center justify-center bg-gray-800">
-      <div className="flex flex-col bg-white shadow-md shadow-black px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-3xl w-50 max-w-md">
+      <div
+        className="flex flex-col bg-white shadow-md shadow-black px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-3xl w-50 max-w-md">
         <div className="font-medium self-center text-xl sm:text-3xl text-gray-800">
           Welcome
         </div>
@@ -95,28 +102,31 @@ const LoginDialog = (props) => {
             </div>
 
             <div className="flex w-full">
-              {loading ? <CircularProgress /> :
               <button
                 type="submit"
                 className="flex mt-2 items-center justify-center focus:outline-none text-white text-sm sm:text-base bg-blue-500 hover:bg-blue-600 rounded-2xl py-2 w-full transition duration-150 ease-in">
-                <span className="mr-2 uppercase">LOGIN</span>
-                <span>
-                  <svg
-                    className="h-6 w-6"
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
+                {loading ? <CircularProgress size={24} sx={{color: 'white'}}/> :
+                  <>
+                    <span className="mr-2 uppercase">LOGIN</span>
+                    <span>
+                    <svg
+                      className="h-6 w-6"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
                     <path
                       d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
-                  </svg>
-                </span>
+                    </svg>
+                    </span>
+                  </>
+                }
               </button>
-              }
+
             </div>
           </form>
         </div>
@@ -124,11 +134,12 @@ const LoginDialog = (props) => {
       <div className="flex justify-center items-center mt-6">
         <span className="inline-flex items-center text-gray-100 font-medium text-sm text-center">
           <span className="ml-2">Don't have an account?
-            <Link to="/register" className="text-sm ml-2 text-blue-400 font-semibold hover:text-blue-200">Register here</Link>
+            <Link to="/register"
+                  className="text-sm ml-2 text-blue-400 font-semibold hover:text-blue-200">Register here</Link>
           </span>
         </span>
       </div>
-      <Alert />
+      <Alert/>
     </div>
   )
 }
