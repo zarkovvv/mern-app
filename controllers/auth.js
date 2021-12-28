@@ -131,7 +131,8 @@ const sendToken = (user, statusCode, res) => {
         token,
         user: {
             uid: user.uid,
-            username: user.username
+            username: user.username,
+            email: user.email
         }
     });
 }
