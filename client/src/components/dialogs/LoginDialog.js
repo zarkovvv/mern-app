@@ -18,7 +18,7 @@ const LoginDialog = (props) => {
 
   useEffect(() => {
     if (localStorage.getItem('authData')) {
-      navigate('/');
+      navigate('/ads');
     }
   }, [navigate])
 
@@ -38,7 +38,7 @@ const LoginDialog = (props) => {
         token: data.token
       }));
 
-      navigate("/");
+      navigate("/ads");
 
     } catch (e) {
       toast.error(e.response.data.error);

@@ -13,6 +13,7 @@ const PrivateScreen = () => {
   const navigate = useNavigate();
 
   useEffect(async () => {
+    navigate('/ads');
     if (!localStorage.getItem('authData')) {
       navigate('/login');
     }

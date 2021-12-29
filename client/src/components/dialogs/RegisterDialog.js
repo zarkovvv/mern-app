@@ -20,7 +20,7 @@ const RegisterDialog = () => {
 
   useEffect(() => {
     if (localStorage.getItem('authData')) {
-      navigate('/');
+      navigate('/ads');
     }
   }, [navigate])
 
@@ -48,7 +48,7 @@ const RegisterDialog = () => {
         token: data.token
       }));
 
-      navigate("/");
+      navigate("/ads");
 
     } catch (e) {
       toast(e.response.data.error);
