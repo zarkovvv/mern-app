@@ -4,8 +4,6 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
 import Alert from "../alerts/Alert";
-import Header from "../Header/Header";
-import Main from "../Main/Main";
 import {createTheme, ThemeProvider} from "@mui/material";
 
 const PrivateScreen = () => {
@@ -42,7 +40,7 @@ const PrivateScreen = () => {
 
   const darkTheme = createTheme({
     palette: {
-      mode: 'dark',
+      mode: 'light',
     },
   });
 
@@ -52,8 +50,7 @@ const PrivateScreen = () => {
       :
       <ThemeProvider theme={darkTheme}>
         <React.Fragment>
-          <Header />
-          <Main />
+          {privateData}
         </React.Fragment>
       </ThemeProvider>
   )
