@@ -27,7 +27,7 @@ const PrivateScreen = () => {
       }
 
       try {
-        const {data} = await axios.get("/api/private", config);
+        const {data} = await axios.get("/api/private/ads", config);
         setPrivateData(data.data);
       } catch (e) {
         localStorage.removeItem('authData');
