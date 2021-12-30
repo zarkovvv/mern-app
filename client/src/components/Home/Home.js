@@ -1,5 +1,5 @@
 import {AppBar, Container, Grid, Grow, Typography} from "@mui/material";
-import carads from '../../images/carads.png';
+import carads from '../../assets/images/carads.png';
 import Ads from "../common/Ads/Ads";
 import Form from "../common/Form/Form";
 import useStyles from './styles';
@@ -17,10 +17,10 @@ const Home = () => {
       <Grow in>
         <Container>
           <Grid container justifyContent="space-between" alignItems="stretch" spacing={3}>
-            <Grid item xs={12} sm={7}>
+            <Grid item xs={12} sm={12} md={7}>
               <Ads />
             </Grid>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={12} md={5}>
               <Form />
             </Grid>
           </Grid>

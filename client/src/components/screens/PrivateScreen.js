@@ -8,6 +8,7 @@ import {createTheme, ThemeProvider} from "@mui/material";
 import Home from "../Home/Home";
 import {useDispatch} from "react-redux";
 import {getAds} from "../../redux/slices/adsSlice";
+import CssBaseline from "@mui/material/CssBaseline";
 
 const PrivateScreen = () => {
   const [error, setError] = useState("");
@@ -16,8 +17,6 @@ const PrivateScreen = () => {
   const dispatch = useDispatch();
 
   useEffect(async () => {
-
-    navigate('/ads');
 
     if (!localStorage.getItem('authData')) {
       navigate('/login');
@@ -56,6 +55,8 @@ const PrivateScreen = () => {
       :
       <ThemeProvider theme={darkTheme}>
         <React.Fragment>
+          <CssBaseline />
+
           <Home />
         </React.Fragment>
       </ThemeProvider>
