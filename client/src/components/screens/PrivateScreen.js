@@ -5,15 +5,20 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import Alert from "../alerts/Alert";
 import {createTheme, ThemeProvider} from "@mui/material";
+import Home from "../Home/Home";
+import {useDispatch} from "react-redux";
+import {getAds} from "../../redux/slices/adsSlice";
 
 const PrivateScreen = () => {
   const [error, setError] = useState("");
-  const [privateData, setPrivateData] = useState("");
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(async () => {
+
     navigate('/ads');
+
     if (!localStorage.getItem('authData')) {
       navigate('/login');
     }
@@ -28,7 +33,7 @@ const PrivateScreen = () => {
 
       try {
         const {data} = await axios.get("/api/private/ads", config);
-        setPrivateData(data.data);
+        dispatch(getAds(data.data));
       } catch (e) {
         localStorage.removeItem('authData');
         setError('Not authorized');
@@ -41,7 +46,7 @@ const PrivateScreen = () => {
 
   const darkTheme = createTheme({
     palette: {
-      mode: 'light',
+      mode: 'dark',
     },
   });
 
@@ -51,7 +56,7 @@ const PrivateScreen = () => {
       :
       <ThemeProvider theme={darkTheme}>
         <React.Fragment>
-          {privateData}
+          <Home />
         </React.Fragment>
       </ThemeProvider>
   )
