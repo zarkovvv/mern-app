@@ -65,10 +65,6 @@ const AdSchema = new mongoose.Schema({
         type: String,
         required: true
       },
-      displacement: {
-        type: String,
-        required: true
-      },
       power: {
         type: String,
         required: true
