@@ -4,5 +4,6 @@ export default {
   authentication: {
     username: authData ? authData.username : null,
     uid: authData ? authData.uid : null,
-  }
+  },
+  ads: []
 }

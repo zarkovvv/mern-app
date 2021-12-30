@@ -1,4 +1,8 @@
 import {combineReducers} from '@reduxjs/toolkit'
 
 import authReducer from "../slices/authSlice";
-export const rootReducer = combineReducers({ authentication: authReducer });
+import adsReducer from "../slices/adsSlice";
+export const rootReducer = combineReducers({
+  authentication: authReducer,
+  ads: adsReducer
+});
