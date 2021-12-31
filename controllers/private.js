@@ -2,9 +2,9 @@ const Ad = require('../models/Ad');
 const crypto = require('crypto');
 const ErrorResponse = require('../utils/errorResponse');
 
-exports.getPrivateData = async (req, res, next) => {
+exports.getAds = async (req, res, next) => {
     try {
-        const ads = await Ad.find().populate('postedBy');
+        const ads = await Ad.find().populate('postedBy', '-_id -__v');
 
         res.status(200).json({
             success: true,
@@ -20,8 +20,8 @@ exports.createAd = async (req, res, next) => {
     const aid = crypto.randomUUID();
     const creationDate = Date.now();
     const {title, description, images, tags} = req.body;
-    const {make, model, kilometers, color, year, price} = req.body.car;
-    const {displacement, engineType, power} = req.body.car.engine;
+    const {brand, model, km, color, year, price} = req.body.car;
+    const {engineType, power} = req.body.car.engine;
 
     const ad = {
         aid: aid,
@@ -31,15 +31,14 @@ exports.createAd = async (req, res, next) => {
         createdAt: creationDate,
         lastUpdated: creationDate,
         car: {
-            make: make,
+            brand: brand,
             model: model,
-            kilometers: kilometers,
+            km: km,
             color: color,
             year: year,
             price: price,
             engine: {
                 engineType: engineType,
-                displacement: displacement,
                 power: power
             }
         }

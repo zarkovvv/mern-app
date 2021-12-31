@@ -15,6 +15,10 @@ import {createTheme, ThemeProvider} from '@mui/material/styles';
 import AdForm from "./AdForm/AdForm";
 import CarForm from "./CarForm/CarForm";
 import {useEffect, useState} from "react";
+import axios from "axios";
+import {getAds} from "../../../redux/slices/adsSlice";
+import {toast} from "react-toastify";
+import Alert from "../../alerts/Alert";
 // import Review from './Review';
 
 const steps = ['Car details', 'Ad details'];
@@ -54,7 +58,7 @@ const Form = () => {
     setDisabled(checkNextValidity());
   }, [formData]);
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (activeStep === 1) {
       const obj = {
         title: formData.title,
@@ -72,7 +76,15 @@ const Form = () => {
           }
         }
       }
-      console.log(obj);
+
+      try {
+        const {data} = await axios.post('api/private/ads',{...obj});
+        console.log(data)
+        toast.success("Successfully created ad");
+      } catch (e) {
+        toast.error(e.response.data.error);
+      }
+
     } else {
       setActiveStep(activeStep + 1);
     }
@@ -129,6 +141,7 @@ const Form = () => {
           </React.Fragment>
         </Paper>
       </Container>
+      <Alert/>
     </React.Fragment>
   );
 }

@@ -7,15 +7,18 @@ const authSlice = createSlice({
   reducers: {
     login(state, action) {
       state.username = action.payload.user.username
-      state.uid = action.payload.user.uid
+      state.email = action.payload.user.email
+      state.token = action.payload.token
     },
     register(state, action) {
       state.username = action.payload.user.username
-      state.uid = action.payload.user.uid
+      state.email = action.payload.user.email
+      state.token = action.payload.token
     },
     logout(state) {
       state.username = null
-      state.uid = null
+      state.email = null
+      state.token = null
     }
   },
 })
