@@ -36,7 +36,7 @@ const AdSchema = new mongoose.Schema({
     required: true
   },
   car: {
-    make: {
+    brand: {
       type: String,
       required: true
     },
@@ -44,8 +44,8 @@ const AdSchema = new mongoose.Schema({
       type: String,
       required: true
     },
-    kilometers: {
-      type: String,
+    km: {
+      type: Number,
       required: true
     },
     color: {
@@ -53,11 +53,11 @@ const AdSchema = new mongoose.Schema({
       required: true
     },
     year: {
-      type: String,
+      type: Number,
       required: true
     },
     price: {
-      type: String,
+      type: Number,
       required: true
     },
     engine: {
@@ -66,7 +66,7 @@ const AdSchema = new mongoose.Schema({
         required: true
       },
       power: {
-        type: String,
+        type: Number,
         required: true
       }
     }
