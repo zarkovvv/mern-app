@@ -1,25 +1,13 @@
 import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
-import Paper from '@mui/material/Paper';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
-import {createTheme, ThemeProvider} from '@mui/material/styles';
+import axios from "axios";
+import {useEffect, useState} from "react";
+import {toast} from "react-toastify";
+import {Box, Container, Paper, Stepper, Step, StepLabel, Button, Typography} from '@mui/material';
 import AdForm from "./AdForm/AdForm";
 import CarForm from "./CarForm/CarForm";
-import {useEffect, useState} from "react";
-import axios from "axios";
-import {getAds} from "../../../redux/slices/adsSlice";
-import {toast} from "react-toastify";
 import Alert from "../../alerts/Alert";
-// import Review from './Review';
+import {createAd} from "../../../redux/slices/adsSlice";
+import {useDispatch} from "react-redux";
 
 const steps = ['Car details', 'Ad details'];
 
@@ -29,14 +17,15 @@ function getStepContent(step, formData, setFormData) {
       return <CarForm formData={formData} setFormData={setFormData}/>;
     case 1:
       return <AdForm formData={formData} setFormData={setFormData}/>;
-    // case 2:
-    //   return <Review />;
     default:
       throw new Error('Unknown step');
   }
 }
 
 const Form = () => {
+
+  const dispatch = useDispatch();
+
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState(
     {
@@ -79,7 +68,7 @@ const Form = () => {
 
       try {
         const {data} = await axios.post('api/private/ads',{...obj});
-        console.log(data)
+        dispatch(createAd(data.data));
         toast.success("Successfully created ad");
       } catch (e) {
         toast.error(e.response.data.error);

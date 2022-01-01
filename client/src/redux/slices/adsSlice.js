@@ -1,5 +1,5 @@
 import initialState from "../initialState";
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const adsSlice = createSlice({
   name: 'ads',
@@ -9,9 +9,12 @@ const adsSlice = createSlice({
       action.payload.forEach(ad => {
         state.push(ad);
       });
+    },
+    createAd(state, action) {
+      state.push(action.payload);
     }
   },
 })
 
-export const { getAds } = adsSlice.actions
+export const { getAds, createAd } = adsSlice.actions
 export default adsSlice.reducer
