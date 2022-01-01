@@ -1,10 +1,9 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {Link, useNavigate} from 'react-router-dom';
 import Alert from "../alerts/Alert";
 import {toast} from "react-toastify";
-import {useDispatch} from "react-redux";
-import {register} from "../../redux/slices/authSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {registerUser} from "../../redux/slices/authSlice";
 import {CircularProgress} from "@mui/material";
 
 const RegisterDialog = () => {
@@ -12,11 +11,12 @@ const RegisterDialog = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const {loading} = useSelector((state) => state.authentication);
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem('authData')) {
@@ -35,21 +35,8 @@ const RegisterDialog = () => {
     }
 
     try {
-      setLoading(true);
-
-      const {data} = await axios.post("/api/auth/register", {username, email, password});
-
-      dispatch(register(data));
-      setLoading(false);
-      localStorage.setItem("authData", JSON.stringify({
-        username: data.user.username,
-        email: data.user.email,
-        uid: data.user.uid,
-        token: data.token
-      }));
-
+      await dispatch(registerUser({username, email, password})).unwrap();
       navigate("/ads");
-
     } catch (e) {
       toast(e.response.data.error);
     }
@@ -196,7 +183,7 @@ const RegisterDialog = () => {
           </span>
         </span>
       </div>
-      <Alert />
+      <Alert/>
     </div>
   )
 }

@@ -1,20 +1,20 @@
 import {Link, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
-import axios from "axios";
 import Alert from "../alerts/Alert";
-import {useDispatch} from "react-redux";
-import {login} from '../../redux/slices/authSlice';
+import {useDispatch, useSelector} from "react-redux";
 import {CircularProgress} from "@mui/material";
+import {loginUser} from '../../redux/slices/authSlice'
 
 const LoginDialog = (props) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const {loading} = useSelector((state) => state.authentication);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem('authData')) {
@@ -25,21 +25,8 @@ const LoginDialog = (props) => {
   const loginHandler = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
-
-      const {data} = await axios.post("/api/auth/login", {email, password});
-
-      dispatch(login(data));
-      setLoading(false);
-      localStorage.setItem("authData", JSON.stringify({
-        username: data.user.username,
-        email: data.user.email,
-        uid: data.user.uid,
-        token: data.token
-      }));
-
+      await dispatch(loginUser({email, password})).unwrap();
       navigate("/ads");
-
     } catch (e) {
       toast.error(e.response.data.error);
     }
