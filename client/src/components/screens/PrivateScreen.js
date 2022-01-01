@@ -1,13 +1,13 @@
 import React from "react";
-import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {toast} from "react-toastify";
-import Alert from "../alerts/Alert";
 import {createTheme, ThemeProvider} from "@mui/material";
-import Home from "../Home/Home";
 import {useDispatch} from "react-redux";
 import {getAds} from "../../redux/slices/adsSlice";
+import Home from "../Home/Home";
+import Alert from "../alerts/Alert";
 import CssBaseline from "@mui/material/CssBaseline";
 
 const PrivateScreen = () => {
@@ -23,15 +23,9 @@ const PrivateScreen = () => {
     }
 
     const fetchPrivateData = async () => {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('authData')).token}`
-        }
-      }
 
       try {
-        const {data} = await axios.get("/api/private/ads", config);
+        const {data} = await axios.get("/api/private/ads");
         dispatch(getAds(data.data));
       } catch (e) {
         localStorage.removeItem('authData');
