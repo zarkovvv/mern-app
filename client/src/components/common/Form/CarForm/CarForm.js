@@ -68,6 +68,7 @@ const CarForm = ({formData, setFormData}) => {
               value={formData.brand}
               label="brand"
               onChange={handleBrandChange}
+              MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
             >
               <MenuItem value="">
                 <em>None</em>
@@ -90,6 +91,7 @@ const CarForm = ({formData, setFormData}) => {
               value={formData.model}
               label="model"
               onChange={handleModelChange}
+              MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
             >
               <MenuItem value="">
                 <em>None</em>
@@ -116,6 +118,7 @@ const CarForm = ({formData, setFormData}) => {
               value={formData.year}
               label="year"
               onChange={handleYearChange}
+              MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
             >
               <MenuItem value="">
                 <em>None</em>
@@ -153,6 +156,7 @@ const CarForm = ({formData, setFormData}) => {
               value={formData.color}
               label="color"
               onChange={handleColorChange}
+              MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
             >
               <MenuItem value="">
                 <em>None</em>
@@ -185,6 +189,7 @@ const CarForm = ({formData, setFormData}) => {
               value={formData.engine}
               label="engine"
               onChange={handleEngineChange}
+              MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
             >
               <MenuItem value="">
                 <em>None</em>
