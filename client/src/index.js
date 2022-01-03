@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './redux/store'
+import _ from 'lodash';
+global._ = _;
 
 ReactDOM.render(
   <>
