@@ -1,13 +1,12 @@
 import * as React from 'react';
-import axios from "axios";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
-import {Box, Container, Paper, Stepper, Step, StepLabel, Button, Typography} from '@mui/material';
+import {Box, Container, Paper, Stepper, Step, StepLabel, Button, Typography, CircularProgress} from '@mui/material';
 import AdForm from "./AdForm/AdForm";
 import CarForm from "./CarForm/CarForm";
 import Alert from "../../alerts/Alert";
 import {createAd} from "../../../redux/slices/adsSlice";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 const steps = ['Car details', 'Ad details'];
 
@@ -26,6 +25,7 @@ const Form = () => {
 
   const dispatch = useDispatch();
 
+  const [loading, setLoading] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [formData, setFormData] = useState(
     {
@@ -67,11 +67,13 @@ const Form = () => {
       }
 
       try {
-        const {data} = await axios.post('api/private/ads',{...obj});
-        dispatch(createAd(data.data));
+        setLoading(true);
+        await dispatch(createAd({obj})).unwrap();
         toast.success("Successfully created ad");
       } catch (e) {
         toast.error(e.response.data.error);
+      } finally {
+        setLoading(false);
       }
 
     } else {
@@ -123,7 +125,7 @@ const Form = () => {
                   disabled={disabled}
                   sx={{mt: 3, ml: 1}}
                 >
-                  {activeStep === steps.length - 1 ? 'Create ad' : 'Next'}
+                  {loading ? <CircularProgress size={24} /> : activeStep === steps.length - 1 ? 'Create ad' : 'Next'}
                 </Button>
               </Box>
             </React.Fragment>

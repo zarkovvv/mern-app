@@ -2,7 +2,7 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import {FormControl, Input, InputLabel, MenuItem, Select} from "@mui/material";
+import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {CarList} from "../../../../assets/carsList/CarList";
 import {YearsList} from "../../../../assets/yearsList/YearsList";
 import {useState} from "react";
@@ -13,43 +13,36 @@ const CarForm = ({formData, setFormData}) => {
 
   const [selectedBrand, setSelectedBrand] = useState(formData.brand);
 
-  const handleBrandChange = (e) => {
-    if (e.target.value === '') {
-      setFormData({brand: '', model: '', year: '', km: '', color: '', price: ''});
-      setSelectedBrand(e.target.value);
-      return;
+  const handleChange = (e) => {
+
+    const name = e.target.name;
+    const value = e.target.value;
+
+    switch (name) {
+      case 'brand':
+        if (value === '') {
+          setFormData({...formData, brand: '', model: ''});
+        } else {
+          setFormData({...formData, model: '', [name]: value});
+        }
+        setSelectedBrand(value);
+        break;
+      case 'model':
+      case 'year':
+      case 'color':
+      case 'engine':
+        setFormData({...formData, [name]: value});
+        break;
+      case 'km':
+        if (Number(value) <= 9000000) {
+          setFormData({...formData, [name]: Number(value)});
+        }
+        break;
+      case 'price':
+      case 'power':
+        setFormData({...formData, [name]: Number(value)});
+        break;
     }
-    setFormData({...formData, [e.target.name]: e.target.value});
-    setSelectedBrand(e.target.value);
-  }
-  const handleModelChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
-  }
-
-  const handleKmChange = (e) => {
-    if (Number(e.target.value) <= 9000000){
-      setFormData({...formData, [e.target.name]: Number(e.target.value)});
-    }
-  }
-
-  const handleYearChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
-  }
-
-  const handleColorChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
-  }
-
-  const handlePriceChange = (e) => {
-    setFormData({...formData, [e.target.name]: Number(e.target.value)});
-  }
-
-  const handleEngineChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
-  }
-
-  const handlePowerChange = (e) => {
-    setFormData({...formData, [e.target.name]: Number(e.target.value)});
   }
 
   return (
@@ -67,8 +60,8 @@ const CarForm = ({formData, setFormData}) => {
               id="brand"
               value={formData.brand}
               label="brand"
-              onChange={handleBrandChange}
-              MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
+              onChange={handleChange}
+              MenuProps={{PaperProps: {sx: {maxHeight: 300}}}}
             >
               <MenuItem value="">
                 <em>None</em>
@@ -81,7 +74,7 @@ const CarForm = ({formData, setFormData}) => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={6} >
+        <Grid item xs={6}>
           <FormControl fullWidth disabled={!selectedBrand}>
             <InputLabel id="model-label">Model</InputLabel>
             <Select
@@ -90,25 +83,25 @@ const CarForm = ({formData, setFormData}) => {
               id="model"
               value={formData.model}
               label="model"
-              onChange={handleModelChange}
-              MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
+              onChange={handleChange}
+              MenuProps={{PaperProps: {sx: {maxHeight: 300}}}}
             >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
               {
                 selectedBrand !== '' ?
-                CarList.find(c => c.brand === selectedBrand).models.map(model => {
-                  return (
-                    <MenuItem key={model} value={model}>{model}</MenuItem>
-                  );
-                }) :
-                ''
+                  CarList.find(c => c.brand === selectedBrand).models.map(model => {
+                    return (
+                      <MenuItem key={model} value={model}>{model}</MenuItem>
+                    );
+                  }) :
+                  ''
               }
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={6} >
+        <Grid item xs={6}>
           <FormControl fullWidth disabled={!selectedBrand}>
             <InputLabel id="year-label">Year</InputLabel>
             <Select
@@ -117,8 +110,8 @@ const CarForm = ({formData, setFormData}) => {
               id="year"
               value={formData.year}
               label="year"
-              onChange={handleYearChange}
-              MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
+              onChange={handleChange}
+              MenuProps={{PaperProps: {sx: {maxHeight: 300}}}}
             >
               <MenuItem value="">
                 <em>None</em>
@@ -133,7 +126,7 @@ const CarForm = ({formData, setFormData}) => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={6} >
+        <Grid item xs={6}>
           <TextField
             disabled={!selectedBrand}
             type="number"
@@ -143,10 +136,10 @@ const CarForm = ({formData, setFormData}) => {
             fullWidth
             variant="outlined"
             value={formData.km}
-            onChange={handleKmChange}
+            onChange={handleChange}
           />
         </Grid>
-        <Grid item xs={6} >
+        <Grid item xs={6}>
           <FormControl fullWidth disabled={!selectedBrand}>
             <InputLabel id="color-label">Color</InputLabel>
             <Select
@@ -155,8 +148,8 @@ const CarForm = ({formData, setFormData}) => {
               id="color"
               value={formData.color}
               label="color"
-              onChange={handleColorChange}
-              MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
+              onChange={handleChange}
+              MenuProps={{PaperProps: {sx: {maxHeight: 300}}}}
             >
               <MenuItem value="">
                 <em>None</em>
@@ -165,7 +158,7 @@ const CarForm = ({formData, setFormData}) => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={6} >
+        <Grid item xs={6}>
           <TextField
             disabled={!selectedBrand}
             type="number"
@@ -176,10 +169,10 @@ const CarForm = ({formData, setFormData}) => {
             fullWidth
             variant="outlined"
             value={formData.price}
-            onChange={handlePriceChange}
+            onChange={handleChange}
           />
         </Grid>
-        <Grid item xs={6} >
+        <Grid item xs={6}>
           <FormControl fullWidth disabled={!selectedBrand}>
             <InputLabel id="engine-label">Engine</InputLabel>
             <Select
@@ -188,8 +181,8 @@ const CarForm = ({formData, setFormData}) => {
               id="engine"
               value={formData.engine}
               label="engine"
-              onChange={handleEngineChange}
-              MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
+              onChange={handleChange}
+              MenuProps={{PaperProps: {sx: {maxHeight: 300}}}}
             >
               <MenuItem value="">
                 <em>None</em>
@@ -200,7 +193,7 @@ const CarForm = ({formData, setFormData}) => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={6} >
+        <Grid item xs={6}>
           <TextField
             disabled={!selectedBrand}
             type="number"
@@ -211,7 +204,7 @@ const CarForm = ({formData, setFormData}) => {
             fullWidth
             variant="outlined"
             value={formData.power}
-            onChange={handlePowerChange}
+            onChange={handleChange}
           />
         </Grid>
       </Grid>
