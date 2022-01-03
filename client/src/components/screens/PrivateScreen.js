@@ -16,7 +16,7 @@ const PrivateScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(async () => {
+  useEffect( () => {
 
     if (!localStorage.getItem('authData')) {
       navigate('/login');
@@ -34,8 +34,15 @@ const PrivateScreen = () => {
       }
     }
 
-    await fetchPrivateData();
+    fetchPrivateData().then(() => {});
+
   }, [navigate]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error("Session expired!", {autoClose: false, onClose: () => navigate('/login')});
+    }
+  }, [error])
 
   const darkTheme = createTheme({
     palette: {
