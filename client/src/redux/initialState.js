@@ -7,5 +7,7 @@ export default {
     token: authData ? authData.token : null,
     loading: false
   },
-  ads: []
+  ads: {
+    items: []
+  }
 }
