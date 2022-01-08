@@ -39,10 +39,12 @@ const Ad = ({data}) => {
 
   const classes = useStyles();
 
+  const random = Math.floor(Math.random() * data.images.length);
+
   return(
     <>
       <Card className={classes.card}>
-        <CardMedia className={classes.media} image={'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} title={"title"} />
+        <CardMedia className={classes.media} image={data.images[random] || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} title={"title"} />
         <div className={classes.overlay}>
           <Typography variant="h6">{data.title}</Typography>
           <Typography variant="body2">{"moment"}</Typography>

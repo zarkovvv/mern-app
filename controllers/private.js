@@ -1,6 +1,8 @@
 const Ad = require('../models/Ad');
 const crypto = require('crypto');
 const ErrorResponse = require('../utils/errorResponse');
+const AWS = require('aws-sdk');
+
 
 exports.getAds = async (req, res, next) => {
     try {
@@ -95,6 +97,10 @@ exports.updateAd = async (req, res, next) => {
         }
     }
 
+    if (images) {
+        ad.images = images.map(key => `https://cartoon-models.s3.eu-west-2.amazonaws.com/${key}`);
+    }
+
     try {
         const updatedAd = await Ad.findByIdAndUpdate(_id, ad, {new: true});
 
@@ -118,6 +124,40 @@ exports.deleteAd = async (req, res, next) => {
             success: true,
             data: deletedAd
         })
+    } catch (e) {
+        next(e);
+    }
+}
+
+exports.upload = async (req, res, next) => {
+
+    const images = req.files;
+    let imageKeys = [];
+
+    let s3 = new AWS.S3();
+
+    const params = [];
+    Object.values(images).forEach(image => {
+        const id = crypto.randomUUID();
+        params.push({
+            Bucket: 'cartoon-models',
+            Key: `${id}.jpeg`,
+            Body: image.data,
+            ContentType: 'image/jpeg',
+            ACL: "public-read",
+            ContentDisposition: 'inline; filename=filename.jpg'
+        })
+    })
+
+    try {
+        const responses = await Promise.all(
+          params.map(param => s3.upload(param).promise().then(response => imageKeys.push(response.Key)))
+        )
+        res.status(200).json({
+            success: true,
+            data: imageKeys
+        });
+        next();
     } catch (e) {
         next(e);
     }

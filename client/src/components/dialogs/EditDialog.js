@@ -16,7 +16,7 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import {CarList} from "../../assets/carsList/CarList";
 import {YearsList} from "../../assets/yearsList/YearsList";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
 import Alert from "../alerts/Alert";
@@ -24,6 +24,7 @@ import {getAds, updateAd} from "../../redux/slices/adsSlice";
 import {useDispatch, useSelector} from "react-redux";
 
 const engineTypes = ['petrol', 'diesel', 'electric', 'hybrid'];
+let images;
 
 const EditDialog = ({show, onClose, ad}) => {
 
@@ -33,8 +34,8 @@ const EditDialog = ({show, onClose, ad}) => {
 
   const handleSelectFile = (e) => {
     let arr = [];
+    images = e.target.files;
     Object.values(e.target.files).forEach(file => {
-      console.log(file)
       const image = URL.createObjectURL(file);
       arr.push(image);
     })
@@ -93,6 +94,11 @@ const EditDialog = ({show, onClose, ad}) => {
   }
 
   const handleUpdateAd = async () => {
+    const imageData = new FormData();
+    Object.entries(images).forEach(([key, value]) => {
+      imageData.append(key, value);
+    });
+    imageData.append('aid', ad.aid);
     const obj = {
       aid: ad.aid,
       title: formData.title,
@@ -112,10 +118,12 @@ const EditDialog = ({show, onClose, ad}) => {
     }
     try {
       setLoading(true);
+      const {data} = await axios.post("/api/private/ads/upload", imageData);
+      obj.images = data.data;
       await dispatch(updateAd({obj})).unwrap();
       toast.success('Successfully updated ad!');
     } catch (e) {
-      toast.error(e.response.data.error)
+      toast.error(e.response.data.error || e.response.data)
     } finally {
       setLoading(false);
       onClose();
