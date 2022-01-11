@@ -95,10 +95,12 @@ const EditDialog = ({show, onClose, ad}) => {
 
   const handleUpdateAd = async () => {
     const imageData = new FormData();
-    Object.entries(images).forEach(([key, value]) => {
-      imageData.append(key, value);
-    });
-    imageData.append('aid', ad.aid);
+    if (images) {
+      Object.entries(images).forEach(([key, value]) => {
+        imageData.append(key, value);
+      });
+      imageData.append('aid', ad.aid);
+    }
     const obj = {
       aid: ad.aid,
       title: formData.title,
@@ -118,8 +120,10 @@ const EditDialog = ({show, onClose, ad}) => {
     }
     try {
       setLoading(true);
-      const {data} = await axios.post("/api/private/ads/upload", imageData);
-      obj.images = data.data;
+      if (images) {
+        const {data} = await axios.post("/api/private/ads/upload", imageData);
+        obj.images = data.data;
+      }
       await dispatch(updateAd({obj})).unwrap();
       toast.success('Successfully updated ad!');
     } catch (e) {

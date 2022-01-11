@@ -1,10 +1,14 @@
 import LoginDialog from "../dialogs/LoginDialog";
+import CssBaseline from "@mui/material/CssBaseline";
+import React from "react";
 
 const LoginScreen = () => {
-  return(
-    <div className="h-screen w-screen">
-      <LoginDialog />
-    </div>
+  return (
+    <>
+      <CssBaseline/>
+
+      <LoginDialog/>
+    </>
   )
 }
 

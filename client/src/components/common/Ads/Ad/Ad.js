@@ -1,17 +1,18 @@
 import useStyles from './styles';
 import {Button, Card, CardActions, CardContent, CardMedia, CircularProgress, Typography} from "@mui/material";
-import {Delete, MoreHoriz, ThumbUpAlt} from "@mui/icons-material";
+import {Delete, MoreHoriz} from "@mui/icons-material";
 import {useState} from "react";
 import EditDialog from "../../../dialogs/EditDialog";
 import {useDispatch} from "react-redux";
-import {deleteAd, getAds} from "../../../../redux/slices/adsSlice";
+import {deleteAd} from "../../../../redux/slices/adsSlice";
 import {toast} from "react-toastify";
 import Alert from "../../../alerts/Alert";
-import axios from "axios";
 
 const Ad = ({data}) => {
 
   const dispatch = useDispatch();
+  const classes = useStyles();
+  const random = Math.floor(Math.random() * data.images.length);
 
   const [openEdit, setOpenEdit] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -37,10 +38,6 @@ const Ad = ({data}) => {
     }
   }
 
-  const classes = useStyles();
-
-  const random = Math.floor(Math.random() * data.images.length);
-
   return(
     <>
       <Card className={classes.card}>
@@ -57,9 +54,8 @@ const Ad = ({data}) => {
           <Typography variant="body2" color="textSecondary" component="p">{data.description}</Typography>
         </CardContent>
         <CardActions className={classes.cardActions}>
-          <Button size="small" color="primary" ><ThumbUpAlt fontSize="small" /> Like 1 </Button>
           <Button size="small" color="primary" onClick={handleDelete}>
-            {loading ? <CircularProgress size={24} /> : <><Delete fontSize="small" /> Delete</>}
+            {loading ? <CircularProgress size={24} /> : <><Delete fontSize="small" /><span>Delete</span></>}
           </Button>
         </CardActions>
       </Card>
