@@ -3,8 +3,17 @@ import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import Alert from "../alerts/Alert";
 import {useDispatch, useSelector} from "react-redux";
-import {CircularProgress} from "@mui/material";
+import {
+  Avatar,
+  Box, Button,
+  Checkbox,
+  Container,
+  FormControlLabel, Grid,
+  TextField,
+  Typography
+} from "@mui/material";
 import {loginUser} from '../../redux/slices/authSlice'
+import {LockOutlined} from "@mui/icons-material";
 
 const LoginDialog = (props) => {
 
@@ -32,102 +41,90 @@ const LoginDialog = (props) => {
     }
   }
 
+  function Copyright(props) {
+    return (
+      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        {'Copyright © '}
+        <Link className="link" color="inherit" to="https://mui.com/">
+          Your Website
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    );
+  }
+
   return (
-    <div className="h-full flex flex-col items-center justify-center bg-gray-800">
-      <div
-        className="flex flex-col bg-white shadow-md shadow-black px-4 sm:px-6 md:px-8 lg:px-10 py-8 rounded-3xl w-50 max-w-md">
-        <div className="font-medium self-center text-xl sm:text-3xl text-gray-800">
-          Welcome
-        </div>
-        <div className="mt-4 self-center text-xl sm:text-sm text-gray-800">
-          Enter your credentials to get access account
-        </div>
-
-        <div className="mt-10">
-          <form onSubmit={loginHandler}>
-            <div className="flex flex-col mb-5">
-              <label htmlFor="email" className="mb-1 text-xs tracking-wide text-gray-600">E-Mail Address:</label>
-              <div className="relative">
-                <div className="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
-                  <i className="fas fa-at text-blue-500"/>
-                </div>
-
-                <input
-                  id="email"
-                  type="email"
-                  name="email"
-                  className="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
-                  placeholder="Enter your email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="flex flex-col mb-6">
-              <label htmlFor="password"
-                     className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600">Password:</label>
-              <div className="relative">
-                <div
-                  className="inline-flex items-center justify-center absolute left-0 top-0 h-full w-10 text-gray-400">
-                  <span>
-                    <i className="fas fa-lock text-blue-500"/>
-                  </span>
-                </div>
-
-                <input
-                  id="password"
-                  type="password"
-                  name="password"
-                  className="text-sm placeholder-gray-500 pl-10 pr-4 rounded-2xl border border-gray-400 w-full py-2 focus:outline-none focus:border-blue-400"
-                  placeholder="Enter your password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="flex w-full">
-              <button
-                type="submit"
-                className="flex mt-2 items-center justify-center focus:outline-none text-white text-sm sm:text-base bg-blue-500 hover:bg-blue-600 rounded-2xl py-2 w-full transition duration-150 ease-in">
-                {loading ? <CircularProgress size={24} sx={{color: 'white'}}/> :
-                  <>
-                    <span className="mr-2 uppercase">LOGIN</span>
-                    <span>
-                    <svg
-                      className="h-6 w-6"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                    <path
-                      d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                    </svg>
-                    </span>
-                  </>
-                }
-              </button>
-
-            </div>
-          </form>
-        </div>
-      </div>
-      <div className="flex justify-center items-center mt-6">
-        <span className="inline-flex items-center text-gray-100 font-medium text-sm text-center">
-          <span className="ml-2">Don't have an account?
-            <Link to="/register"
-                  className="text-sm ml-2 text-blue-400 font-semibold hover:text-blue-200">Register here</Link>
-          </span>
-        </span>
-      </div>
-      <Alert/>
-    </div>
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Avatar sx={{ m: 1 }}>
+          <LockOutlined />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <Box component="form" onSubmit={loginHandler} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            // autoComplete="email"
+            // autoFocus
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+            color="primary"
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item xs={12} textAlign='center'>
+              <Link className="link" to="/resetpassword" >
+                Forgot password?
+              </Link>
+            </Grid>
+            <Grid item xs={12} textAlign='center'>
+              <span className="ml-2">Already have an account?
+                <Link className="link" to="/login"> Login here</Link>
+              </span>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
+      <Copyright sx={{ mt: 8, mb: 4 }} />
+      <Alert />
+    </Container>
   )
 }
 
