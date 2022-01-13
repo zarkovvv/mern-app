@@ -1,5 +1,14 @@
 import useStyles from './styles';
-import {Button, Card, CardActions, CardContent, CardMedia, CircularProgress, Typography} from "@mui/material";
+import {
+  Button,
+  ButtonBase,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  CircularProgress,
+  Typography
+} from "@mui/material";
 import {Delete, MoreHoriz} from "@mui/icons-material";
 import {useState} from "react";
 import EditDialog from "../../../dialogs/EditDialog";
@@ -7,15 +16,21 @@ import {useDispatch} from "react-redux";
 import {deleteAd} from "../../../../redux/slices/adsSlice";
 import {toast} from "react-toastify";
 import Alert from "../../../alerts/Alert";
+import {useNavigate} from "react-router-dom";
 
 const Ad = ({data}) => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const classes = useStyles();
   const random = Math.floor(Math.random() * data.images.length);
 
   const [openEdit, setOpenEdit] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const handleOpenDetails = () => {
+    navigate(`/ads/${data.aid}`);
+  }
 
   const handleOpenEdit = () => {
     setOpenEdit(true);
@@ -38,29 +53,37 @@ const Ad = ({data}) => {
     }
   }
 
-  return(
+  return (
     <>
-      <Card className={classes.card}>
-        <CardMedia className={classes.media} image={data.images[random] || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} title={"title"} />
-        <div className={classes.overlay}>
-          <Typography variant="h6">{data.title}</Typography>
-          <Typography variant="body2">{"moment"}</Typography>
-        </div>
-        <div className={classes.overlay2}>
-          <Button style={{ color: 'white' }} size="small" onClick={handleOpenEdit}><MoreHoriz fontSize="default" /></Button>
-        </div>
-        <Typography className={classes.title} gutterBottom variant="h5" component="h2">{data.title}</Typography>
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">{data.description}</Typography>
-        </CardContent>
-        <CardActions className={classes.cardActions}>
-          <Button size="small" color="primary" onClick={handleDelete}>
-            {loading ? <CircularProgress size={24} /> : <><Delete fontSize="small" /><span>Delete</span></>}
-          </Button>
-        </CardActions>
+      <Card className={classes.card} sx={{minHeight: '320px'}}>
+        <ButtonBase
+          component="span"
+          name="test"
+          className={classes.cardAction}
+          onClick={handleOpenDetails}
+        >
+          <CardMedia className={classes.media}
+                     image={data.images[random] || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'}
+                     title={"title"}/>
+          <div className={classes.overlay}>
+            {/*<Typography variant="h6">{data.title}</Typography>*/}
+          </div>
+
+          <Typography className={classes.title} gutterBottom variant="h5" component="h2">{data.title}</Typography>
+          <CardContent>
+            <Typography variant="body2" color="textSecondary" component="p">{data.description.length > 30 ? data.description.slice(0,30).concat('...') : data.description}</Typography>
+          </CardContent>
+        </ButtonBase>
+          <CardActions className={classes.cardActions}>
+            <Button style={{color: 'white'}} size="small" onClick={handleOpenEdit}>
+              Edit
+            </Button>
+            <Button size="small" color="primary" onClick={handleDelete}>
+              {loading ? <CircularProgress size={24}/> : <><Delete fontSize="small"/><span>Delete</span></>}
+            </Button>
+          </CardActions>
       </Card>
       {openEdit && <EditDialog show={true} onClose={handleCloseEdit} ad={data}/>}
-      <Alert />
     </>
   );
 }
