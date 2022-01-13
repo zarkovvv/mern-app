@@ -370,7 +370,6 @@ const EditDialog = ({show, onClose, ad}) => {
           }</Button>
         </DialogActions>
       </Dialog>
-      <Alert />
     </React.Fragment>
   );
 }

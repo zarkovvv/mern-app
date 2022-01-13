@@ -16,7 +16,7 @@ const Ads = () => {
           <CircularProgress /> :
           (<Grid className={classes.mainContainer} container alignItems="stretch" spacing={3}>
               {adItems.map((ad) => (
-                <Grid key={ad.aid} item xs={12} sm={6}>
+                <Grid key={ad.aid} item xs={12} sm={4} >
                   <Ad data={ad}/>
                 </Grid>
               ))}

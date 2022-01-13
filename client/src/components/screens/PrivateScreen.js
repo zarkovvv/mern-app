@@ -4,13 +4,16 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {createTheme, ThemeProvider} from "@mui/material";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getAds} from "../../redux/slices/adsSlice";
 import Home from "../Home/Home";
 import Alert from "../alerts/Alert";
 import CssBaseline from "@mui/material/CssBaseline";
 
 const PrivateScreen = () => {
+
+  const ads = useSelector((state) => state.ads.items);
+
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
@@ -34,7 +37,9 @@ const PrivateScreen = () => {
       }
     }
 
-    fetchPrivateData().then(() => {});
+    if (!ads.length) {
+      fetchPrivateData().then(() => {});
+    }
 
   }, [navigate]);
 

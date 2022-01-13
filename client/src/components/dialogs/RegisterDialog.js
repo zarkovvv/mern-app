@@ -183,7 +183,6 @@ const RegisterDialog = () => {
           </span>
         </span>
       </div>
-      <Alert/>
     </div>
   )
 }

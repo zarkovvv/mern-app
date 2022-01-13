@@ -132,7 +132,6 @@ const Form = () => {
           </React.Fragment>
         </Paper>
       </Container>
-      <Alert/>
     </React.Fragment>
   );
 }
