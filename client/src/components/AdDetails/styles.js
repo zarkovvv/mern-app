@@ -2,12 +2,11 @@ import { makeStyles } from '@mui/styles';
 
 export default makeStyles(() => ({
   media: {
-    borderRadius: '20px',
     objectFit: 'contain',
-    width: '100%',
+    // width: '100%',
     height: '100%',
     maxHeight: '550px',
-
+    padding: '2px'
   },
   card: {
     display: 'flex',
@@ -19,6 +18,7 @@ export default makeStyles(() => ({
     flex: 1,
   },
   imageSection: {
+    textAlign: 'center',
     marginLeft: '20px',
   },
   recommendedPosts: {

@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import {Carousel} from "react-responsive-carousel";
 import {useParams, useNavigate} from 'react-router-dom';
 
 import useStyles from './styles';
@@ -17,6 +18,8 @@ const AdDetails = () => {
   const ads = useSelector((state) => state.ads.items);
   const ad = ads.find(ad => ad.aid === id);
 
+  const [images, setImages] = useState([]);
+
   useEffect(async () => {
     if (!ads.length) {
       const {data} = await axios.get('/api/private/ads');
@@ -27,23 +30,45 @@ const AdDetails = () => {
     }
   }, [id]);
 
+  useEffect(() => {
+    setImages(ad?.images);
+  }, [ad]);
+
+  useEffect(() => {
+    // const dots = document.getElementsByClassName('control-dots')[0]; //carousel-status
+    // const status = document.getElementsByClassName('carousel-status')[0];
+    // const parent = dots.parentNode;
+    // parent.insertBefore(dots, status);
+  }, [])
+
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
     },
   });
 
+  const createCarouselItemImage = (img, index) => (
+    <img key={index} src={img} className={classes.media}/>
+  );
+
+  const baseChildren = <div>{ad?.images.map(createCarouselItemImage)}</div>;
+
+  const handleItemClick = (index, item) => {
+    console.log(index)
+    console.log(item)
+  }
+
   if (!ad) return null;
 
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>
           <div className={classes.card}>
             <div className={classes.section}>
               <Grid container>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                   <Grid container spacing={1} sx={{paddingBottom: '20px'}}>
                     <Grid item xs={12}>
                       <Typography variant="h4" fontWeight="bold" component="h2">{ad.title}</Typography>
@@ -85,10 +110,8 @@ const AdDetails = () => {
                     <Divider />
                   </Grid>
                 </Grid>
-                <Grid item xs={12} >
-                  <div className={classes.imageSection}>
-                    <img className={classes.media} src={ad.images[0] || 'https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png'} alt={ad.title} />
-                  </div>
+                <Grid item xs={6} >
+                  <Carousel onClickItem={handleItemClick} infiniteLoop dynamicHeight={false} showThumbs={true} >{baseChildren.props.children}</Carousel>
                 </Grid>
               </Grid>
 
