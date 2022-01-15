@@ -43,12 +43,6 @@ const PrivateScreen = () => {
 
   }, [navigate]);
 
-  useEffect(() => {
-    if (error) {
-      toast.error("Session expired!", {autoClose: false, onClose: () => navigate('/login')});
-    }
-  }, [error])
-
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
