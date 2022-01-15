@@ -57,7 +57,7 @@ const PrivateScreen = () => {
 
   return (
     error ?
-      <Alert/>
+      <></>
       :
       <ThemeProvider theme={darkTheme}>
         <React.Fragment>
