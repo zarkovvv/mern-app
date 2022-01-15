@@ -4,6 +4,7 @@ import PrivateRoute from "./components/routing/PrivateRoute";
 import AdDetails from './components/AdDetails/AdDetails';
 import {PrivateScreen, RegisterScreen, LoginScreen, ForgotPasswordScreen, ResetPasswordScreen} from './components/screens/index';
 import 'react-toastify/dist/ReactToastify.css';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import store from "./redux/store";
 import Alert from "./components/alerts/Alert";
 import * as React from "react";
