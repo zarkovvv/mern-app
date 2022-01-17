@@ -32,7 +32,8 @@ code {
   border: 3px solid #333 !important;
 }
 
-.control-dots {
-  /*position: relative !important;*/
+.popup-carousel .control-dots {
+  position: relative !important;
 }
+
 
