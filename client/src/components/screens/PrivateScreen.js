@@ -3,7 +3,6 @@ import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {toast} from "react-toastify";
-import {createTheme, ThemeProvider} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {getAds} from "../../redux/slices/adsSlice";
 import Home from "../Home/Home";
@@ -43,23 +42,11 @@ const PrivateScreen = () => {
 
   }, [navigate]);
 
-  const darkTheme = createTheme({
-    palette: {
-      mode: 'dark',
-    },
-  });
-
   return (
     error ?
       <></>
       :
-      <ThemeProvider theme={darkTheme}>
-        <React.Fragment>
-          <CssBaseline />
-
-          <Home />
-        </React.Fragment>
-      </ThemeProvider>
+      <Home />
   )
 }
 

@@ -55,7 +55,7 @@ const Ad = ({data}) => {
 
   return (
     <>
-      <Card className={classes.card} sx={{minHeight: '320px'}}>
+      <Card className={classes.card} sx={{minHeight: '354px'}}>
         <ButtonBase
           component="span"
           name="test"
@@ -75,7 +75,7 @@ const Ad = ({data}) => {
           </CardContent>
         </ButtonBase>
           <CardActions className={classes.cardActions}>
-            <Button style={{color: 'white'}} size="small" onClick={handleOpenEdit}>
+            <Button size="small" color="primary" onClick={handleOpenEdit}>
               Edit
             </Button>
             <Button size="small" color="primary" onClick={handleDelete}>
