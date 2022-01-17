@@ -1,4 +1,4 @@
-import Ad from "./Ad/Ad";
+import Ad from "../Ad/Ad";
 import useStyles from "./styles";
 import {useSelector} from "react-redux";
 import {CircularProgress, Grid} from "@mui/material";

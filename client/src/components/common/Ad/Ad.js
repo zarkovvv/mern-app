@@ -11,11 +11,11 @@ import {
 } from "@mui/material";
 import {Delete, MoreHoriz} from "@mui/icons-material";
 import {useState} from "react";
-import EditDialog from "../../../dialogs/EditDialog";
+import EditDialog from "../../dialogs/EditDialog";
 import {useDispatch} from "react-redux";
-import {deleteAd} from "../../../../redux/slices/adsSlice";
+import {deleteAd} from "../../../redux/slices/adsSlice";
 import {toast} from "react-toastify";
-import Alert from "../../../alerts/Alert";
+import Alert from "../../alerts/Alert";
 import {useNavigate} from "react-router-dom";
 
 const Ad = ({data}) => {
