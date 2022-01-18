@@ -30,6 +30,12 @@ axios.interceptors.request
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
+    secondary: {
+      main: '#d50000',
+      light: '#ff5131',
+      dark: '#9b0000',
+      contrastText: '#fff'
+    }
   },
   typography: {
     fontFamily: 'Ubuntu'

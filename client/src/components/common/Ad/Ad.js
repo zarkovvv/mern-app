@@ -9,13 +9,12 @@ import {
   CircularProgress,
   Typography
 } from "@mui/material";
-import {Delete, MoreHoriz} from "@mui/icons-material";
+import {Delete} from "@mui/icons-material";
 import {useState} from "react";
 import EditDialog from "../../dialogs/EditDialog";
 import {useDispatch} from "react-redux";
 import {deleteAd} from "../../../redux/slices/adsSlice";
 import {toast} from "react-toastify";
-import Alert from "../../alerts/Alert";
 import {useNavigate} from "react-router-dom";
 
 const Ad = ({data}) => {
@@ -78,7 +77,7 @@ const Ad = ({data}) => {
             <Button size="small" color="primary" onClick={handleOpenEdit}>
               Edit
             </Button>
-            <Button size="small" color="primary" onClick={handleDelete}>
+            <Button size="small" color="secondary" onClick={handleDelete}>
               {loading ? <CircularProgress size={24}/> : <><Delete fontSize="small"/><span>Delete</span></>}
             </Button>
           </CardActions>

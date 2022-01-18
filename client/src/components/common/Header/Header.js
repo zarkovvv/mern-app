@@ -18,8 +18,7 @@ import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Services', 'Cars', 'Contact', 'About us'];
 
 const Header = () => {
 
@@ -105,7 +104,7 @@ const Header = () => {
             {pages.map((page) => (
               <Button
                 key={page}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, display: 'block' }}
               >
                 {page}
               </Button>
